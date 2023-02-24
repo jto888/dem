@@ -9,7 +9,7 @@ History::History(std::shared_ptr<OpLineList>& OLL,
 						
 	_OLL = OLL;
 	_EQ = EQ;
-	int margin=Rcpp::as<int>(margin_in);		
+	double margin=Rcpp::as<double>(margin_in);		
 	
 // an initilization that would be implied on Windows build, but required on Linux	
 		pos=0;
@@ -37,6 +37,9 @@ History::History(std::shared_ptr<OpLineList>& OLL,
 			std::vector<int> arr(hist_size,0);	
 			detail.push_back(Rcpp::wrap(arr));
 		}
+		
+		  __detail.zeros(hist_size, OLL->getSize());
+		
 // This was a test/inspection feature no longer required		
 //		std::vector<std::string> arr3(hist_size,"");
 //		_queue = Rcpp::wrap(arr3);
