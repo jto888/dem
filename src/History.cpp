@@ -55,6 +55,11 @@ History::History(std::shared_ptr<OpLineList>& OLL,
 	for(int i=0; i<OLL->getSize(); i++)  {
 		detail[i][pos] = OLL->getByIndex(i)->getStatus();
 	}
+	
+	for(int i=0; i< _OLL->getSize(); i++)  {
+		__detail(pos,i) = _OLL->getByIndex(i)->getStatus();
+	}
+	
 // This was a test/inspection feature no longer required	
 //	_queue[pos] = EQ->writeQue();
 }
