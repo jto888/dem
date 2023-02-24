@@ -9,7 +9,7 @@ History::History(std::shared_ptr<OpLineList>& OLL,
 						
 	_OLL = OLL;
 	_EQ = EQ;
-	int margin=Rcpp::as<int>(margin_in);		
+	double margin=Rcpp::as<double>(margin_in);		
 	
 // an initilization that would be implied on Windows build, but required on Linux	
 		pos=0;
