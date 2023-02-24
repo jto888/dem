@@ -37,6 +37,9 @@ History::History(std::shared_ptr<OpLineList>& OLL,
 			std::vector<int> arr(hist_size,0);	
 			detail.push_back(Rcpp::wrap(arr));
 		}
+		
+		  __detail.zeros(hist_size, OLL->getSize());
+		
 // This was a test/inspection feature no longer required		
 //		std::vector<std::string> arr3(hist_size,"");
 //		_queue = Rcpp::wrap(arr3);
