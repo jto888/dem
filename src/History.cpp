@@ -10,6 +10,7 @@ History::History(std::shared_ptr<OpLineList>& OLL,
 	_OLL = OLL;
 	_EQ = EQ;
 	double margin=Rcpp::as<double>(margin_in);		
+	Rcout<< "margin    "<< margin << std::endl;
 	
 // an initilization that would be implied on Windows build, but required on Linux	
 		pos=0;
@@ -20,7 +21,7 @@ History::History(std::shared_ptr<OpLineList>& OLL,
 				rand_size=rand_size + OLL->getByIndex(i)->getElems()[j]->numRands();
 			}	
 		}
-// a headspace of 5% is applied here, perhaps this needs to be part of 
+// a headspace of 15% is applied here, perhaps this needs to be part of 
 // a simulation control along with years_in			
 		//int hist_size = (int)  rand_size*2*1.15;
 		hist_size = (int)  rand_size*2*(1+margin);
