@@ -120,8 +120,10 @@ if(is.null(Maint)) {
 					
 		history_out <- as.data.frame(fun_out[[2]])			
 			Page<-rep(p,length(history_out[,1]))		
-			PageCol<-data.frame(Page)		
-			history_out<-cbind(PageCol,history_out)		
+			PageCol<-data.frame(Page)
+			detail_out<-as.data.frame(fun_out[[3]])
+
+			history_out<-cbind(PageCol,history_out, detail_out)		
 					
 			historyDF<-rbind(historyDF, history_out)		
 					

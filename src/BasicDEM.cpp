@@ -75,6 +75,7 @@ while(!endSimulation) {
 	std::unique_ptr<Summary> S(new Summary(OLL));
 	outlist.push_back(S->summaryDF());
 	outlist.push_back(outframe);
+	outlist.push_back(Rcpp::wrap(H->get__detail()));
 
 
 	 return(outlist);
