@@ -86,6 +86,12 @@ Rcpp::NumericVector History::getDuration() {
 
 	return get_duration;
 }
+
+arma::umat History::get__detail(){	
+	__detail.shed_rows(pos+1, hist_size-1); 
+	return __detail;
+}	
+
 /*
 Rcpp::StringVector History::getQueue() {
 	Rcpp::StringVector get_queue(_queue.begin(), std::next(_queue.begin(), pos+1));
