@@ -1,7 +1,7 @@
 Package: dem
 Title: Discrete Event Modeler
-Version: 0.7
-Date: 2022-3-1
+Version: 0.8
+Date: 2022-3-3
 Author: David J. Silkworth
 Maintainer: Jacob T. Ormerod <jake@openreliability.org>
 Description:  Provide for more generalized discrete event modeling
