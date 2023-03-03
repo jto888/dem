@@ -7,6 +7,7 @@ class History {
 private:	
 	int pos;
 	int hist_size;
+	int showZeros;
 	Rcpp::NumericVector _time;
 	arma::colvec __time;
 

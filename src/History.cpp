@@ -10,7 +10,9 @@ History::History(std::shared_ptr<OpLineList>& OLL,
 	_OLL = OLL;
 	_EQ = EQ;
 	double margin=Rcpp::as<double>(margin_in);		
-	Rcout<< "margin    "<< margin << std::endl;
+//	Rcout<< "margin    "<< margin << std::endl;
+//	showZeros=Rcpp::as<int>(show_zeros);
+	showZeros = 1;
 	
 // an initilization that would be implied on Windows build, but required on Linux	
 		pos=0;
@@ -142,7 +144,8 @@ int History::update(std::shared_ptr<DiscreteEvent>& ev ) {
 	int headspace = hist_size - (pos+1);
 	if(headspace > 0) {
 		if(ev->getType() > 0) {
-			if(__duration[pos]>0) {
+			if(__duration[pos]>0 || showZeros==1) {
+//			if(__duration[pos]>0) {
 				pos = pos +1;
 				__time(pos) = time_now;
 			}
