@@ -10,6 +10,9 @@ void OnFailure(std::shared_ptr<DiscreteEvent>& ev,
 		//Rcpp::Rcout<< "probability    "<< getProbability()<< std::endl;
 		if(getProbability() > 1.0) {
 			handleInlineFailure(ev, EL, EQ, OLL);
+		}else{
+			//fail the current element as located in EL (operable=0)	
+			EL->getByID(9992)->setOperable(0);
 		}
 	}else{	
 						
