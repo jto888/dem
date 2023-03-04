@@ -6,17 +6,24 @@ void OnFailure(std::shared_ptr<DiscreteEvent>& ev,
 		std::shared_ptr<EventQueue>& EQ,
 		std::shared_ptr<OpLineList>& OLL) {
 			
+	if(ev->getEventID() == 9992)  {	
+		//Rcpp::Rcout<< "probability    "<< getProbability()<< std::endl;
+		if(getProbability() > 1.0) {
+			handleInlineFailure(ev, EL, EQ, OLL);
+		}
+	}else{	
+						
 // For the basic opline model inline handling will suffice:
-handleInlineFailure(ev, EL, EQ, OLL);
-
+	handleInlineFailure(ev, EL, EQ, OLL);
+	}
 // ToDo: Any special/external actions to take on failure event		
 			
-			
-			
-			
-			
-			
-			
+	if(ev->getEventID() == 9991)  {	
+		if(EL->getByID(9992)->getOperable() == 0) {	
+			auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(9992)->nextRepair(), 2, 9992, 2);
+			EQ->insertEvent(new_event);
+		}					
+	}
 }
 
 void handleInlineFailure(std::shared_ptr<DiscreteEvent>& ev,
