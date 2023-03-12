@@ -56,6 +56,7 @@ void OnMaintEnd(std::shared_ptr<DiscreteEvent>& ev,
 		std::shared_ptr<EventQueue>& EQ,
 		std::shared_ptr<OpLineList>& OLL);					
 		
+double getProbability();
 		
 #endif
 
