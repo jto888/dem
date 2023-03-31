@@ -4,15 +4,16 @@
 
 History::History(std::shared_ptr<OpLineList>& OLL,
 				 std::shared_ptr<EventQueue>& EQ,
-				 SEXP margin_in) {
+				 SEXP margin_in,
+				 SEXP show_zeros) {
 		using namespace Rcpp;					
 						
 	_OLL = OLL;
 	_EQ = EQ;
 	double margin=Rcpp::as<double>(margin_in);		
 //	Rcout<< "margin    "<< margin << std::endl;
-//	showZeros=Rcpp::as<int>(show_zeros);
-	showZeros = 1;
+	showZeros=Rcpp::as<int>(show_zeros);
+//	showZeros = 1;
 	
 // an initilization that would be implied on Windows build, but required on Linux	
 		pos=0;

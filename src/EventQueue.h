@@ -3,8 +3,8 @@
 
 #include "dem.h"
 #include <string>
-#include "Maintenance.h"
-#include "MaintList.h"
+//#include "Maintenance.h"
+//#include "MaintList.h"
 
 class EventQueue {		
 	private:	
@@ -16,10 +16,11 @@ class EventQueue {
 		
 	public:	
 		  EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in);
+		/*  
 		  EventQueue(std::unique_ptr<ElementList>& EL, 
 			     std::unique_ptr<MaintList>& ML, 
 			     SEXP years_in);
-		   //    public void addEvent(Event obj) {
+		*/
 		
 		void insertEvent(std::shared_ptr<DiscreteEvent>& ev);
 		std::shared_ptr<DiscreteEvent> pullNext();
