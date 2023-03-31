@@ -1,4 +1,4 @@
-   demtest22<-function(Model,SimulationYears = 10,SimulationYearsPerPage = 10, Maint=NULL,				
+   demtest22<-function(Model,OpLineNames=NULL,SimulationYears = 10,SimulationYearsPerPage = 10, Maint=NULL,				
 	   Control=list(headspace_margin=.15), ProgRpt=FALSE) { 				
 	 				
 	  	HeadspaceMargin <- Control$headspace_margin			
@@ -122,7 +122,11 @@ if(is.null(Maint)) {
 			Page<-rep(p,length(history_out[,1]))		
 			PageCol<-data.frame(Page)
 			detail_out<-as.data.frame(fun_out[[3]])
-
+		if(!is.null(OpLineNames)) {
+			if(nrow(OpLineNames)==ncol(detail_out)) {
+				names(detail_out)<-OpLineNames[,2]
+			}
+		}	
 			history_out<-cbind(PageCol,history_out, detail_out)		
 					
 			historyDF<-rbind(historyDF, history_out)		
