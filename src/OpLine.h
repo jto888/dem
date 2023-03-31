@@ -2,14 +2,14 @@
 #define _opline_H
 
 #include "dem.h"
-#include "DirectImpact.h"
+//#include "DirectImpact.h"
 
 class OpLine {		
 	private:	
 		int num;
 		int inMaint;
 		std::vector<std::shared_ptr<class Element>> elems;
-		std::vector<class DirectImpact> direct_impacts;
+		//std::vector<class DirectImpact> direct_impacts;
 
 
 	public:	
@@ -19,8 +19,8 @@ class OpLine {
 		int getNum();
 		int getMaintStatus();
 		void setInMaint(int);
-		void addDirectImpact(int target, double probability);
-		std::vector<DirectImpact> getDirectImpacts();
+		//void addDirectImpact(int target, double probability);
+		//std::vector<DirectImpact> getDirectImpacts();
 };
 
 #endif	

@@ -15,15 +15,15 @@
 #include "EventQueue.h"
 #include "History.h"
 #include "Summary.h"
-#include "Maintenance.h"
-#include "MaintList.h"
-#include "Actions.h"
-#include "DirectImpact.h"
+//#include "Maintenance.h"
+//#include "MaintList.h"
+//#include "Actions.h"
+//#include "DirectImpact.h"
 
 
 RcppExport SEXP Basicdem( SEXP, SEXP, SEXP);
-RcppExport SEXP demwMaint(SEXP, SEXP, SEXP, SEXP);
-RcppExport SEXP demwActionswMaint(SEXP, SEXP, SEXP, SEXP, SEXP);
+//RcppExport SEXP demwMaint(SEXP, SEXP, SEXP, SEXP);
+//RcppExport SEXP demwActionswMaint(SEXP, SEXP, SEXP, SEXP, SEXP);
 
 
 void OnFailure(std::shared_ptr<DiscreteEvent>& ev,
@@ -44,7 +44,8 @@ void handleInlineRepair(std::shared_ptr<DiscreteEvent>& ev,
 		std::unique_ptr<ElementList>& EL,
 		std::shared_ptr<EventQueue>& EQ,
 		std::shared_ptr<OpLineList>& OLL);
-		
+
+/*		
 void OnMaintStart(std::shared_ptr<DiscreteEvent>& ev,
 		//std::unique_ptr<ElementList>& EL,
 		//std::shared_ptr<EventQueue>& EQ,
@@ -55,6 +56,7 @@ void OnMaintEnd(std::shared_ptr<DiscreteEvent>& ev,
 		std::unique_ptr<ElementList>& EL,
 		std::shared_ptr<EventQueue>& EQ,
 		std::shared_ptr<OpLineList>& OLL);					
+*/
 		
 double getProbability();
 		

@@ -36,7 +36,7 @@
 	void OpLine::setInMaint(int in_maint) {
 		inMaint = in_maint;
 	}
-	
+/*	
 	void OpLine::addDirectImpact(int target, double probability) {
 		direct_impacts.push_back(DirectImpact(target, probability));
 	}
@@ -44,3 +44,4 @@
 	std::vector<DirectImpact> OpLine::getDirectImpacts() {
 		return direct_impacts;
 	}
+*/

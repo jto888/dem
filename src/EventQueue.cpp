@@ -2,8 +2,8 @@
 #include "DiscreteEvent.h"
 #include "EventQueue.h"
 #include <math.h>
-#include "Maintenance.h"
-#include "MaintList.h"
+//#include "Maintenance.h"
+//#include "MaintList.h"
 
 		using namespace std; 
 
@@ -35,6 +35,7 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in) {
 	}
 }
 
+/*
 EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, 
 					   std::unique_ptr<MaintList>& ML, 
 					   SEXP years_in) {
@@ -69,7 +70,9 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL,
 		if(maint_start == 0.0) {
 			maint_start = maint->getInterval();
 		}
-*/		
+*/	
+
+/*	
 		double maint_end = maint_start + maint->getDuration();
 		auto ev1 = make_shared<DiscreteEvent>(maint_start, 3, maint->getNum(), maint->getOplineNum());
 		auto ev2 = make_shared<DiscreteEvent>(maint_end, 4, maint->getNum(), maint->getOplineNum());
@@ -94,7 +97,7 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL,
 	
 }
 
-
+*/
 
 
 void EventQueue::insertEvent(shared_ptr<DiscreteEvent>& ev) {
