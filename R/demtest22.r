@@ -122,9 +122,10 @@ if(is.null(Maint)) {
 			Page<-rep(p,length(history_out[,1]))		
 			PageCol<-data.frame(Page)
 			detail_out<-as.data.frame(fun_out[[3]])
-		if(!is.null(OpLineNames)) {
-			if(nrow(OpLineNames)==ncol(detail_out)) {
-				names(detail_out)<-OpLineNames[,2]
+		if(!is.null(OpLineNames)) {			
+			names(detail_out)<-OpLineNames[,2]
+			if(nrow(OpLineNames)!=ncol(detail_out)) {	
+				warning("Provided OpLineNames do not match OpLines")
 			}
 		}	
 			history_out<-cbind(PageCol,history_out, detail_out)		
