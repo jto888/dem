@@ -1,8 +1,13 @@
    demtest22<-function(Model,OpLineNames=NULL,SimulationYears = 10,SimulationYearsPerPage = 10, Maint=NULL,				
-	   Control=list(headspace_margin=.15), ProgRpt=FALSE) { 				
+	   Control=list(headspace_margin=.15, show_zero_duration=FALSE), ProgRpt=FALSE) { 				
 	 				
 	  	HeadspaceMargin <- Control$headspace_margin			
-					
+		if(HeadspaceMargin > .5 || HeadspaceMargin <0) stop("headspace_margin out of range")
+
+		if(!is.logical(Control$show_zero_duration)) stop("show_zero_duration is not TRUE or FALSE")
+		ShowZeroDuration <- 0
+		if(Control$show_zero_duration == TRUE) ShowZeroDuration <- 1
+			
 		  ShowProgress=FALSE			
 		  thisRNGkind="Marsaglia-Multicarry"			
 					
@@ -98,13 +103,10 @@
 						
 			StackedModel_oplsz <- c(StackedModel, oplsz)	
 			
-if(is.null(Maint)) {				
+	if(is.null(Maint)) {				
 		 ## this is the old call to the unregistered C++ code in the stosim library			
-			fun_out<-.Call("Basicdem", StackedModel_oplsz, SimulationYearsPerPage, HeadspaceMargin, PACKAGE="dem")		
-}else{
-		 ## this is the old call to the unregistered C++ code in the stosim library			
-			fun_out<-.Call("demwMaint", StackedModel_oplsz, StackedMaint, SimulationYearsPerPage, HeadspaceMargin, PACKAGE="dem")		
-}					
+			fun_out<-.Call("Basicdem", StackedModel_oplsz, SimulationYearsPerPage, HeadspaceMargin, ShowZeroDuration, PACKAGE="dem")	
+	}					
 					
 		if(p == 1)  {			
 			summaryDF<- as.data.frame(fun_out[[1]])		

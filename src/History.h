@@ -24,7 +24,9 @@ private:
 public:	
 	History(std::shared_ptr<OpLineList>& OLL,
 		std::shared_ptr<EventQueue>& EQ,
-		SEXP margin_in);
+		SEXP margin_in,
+		SEXP show_zeros);
+		
 	void setLastDuration(double time);
 	int update(std::shared_ptr<DiscreteEvent>& ev);
 	Rcpp::List historyList();

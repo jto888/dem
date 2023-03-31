@@ -21,7 +21,7 @@
 //#include "DirectImpact.h"
 
 
-RcppExport SEXP Basicdem( SEXP, SEXP, SEXP);
+RcppExport SEXP Basicdem( SEXP, SEXP, SEXP, SEXP););
 //RcppExport SEXP demwMaint(SEXP, SEXP, SEXP, SEXP);
 //RcppExport SEXP demwActionswMaint(SEXP, SEXP, SEXP, SEXP, SEXP);
 
