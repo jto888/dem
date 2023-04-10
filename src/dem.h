@@ -20,6 +20,9 @@
 //#include "Actions.h"
 //#include "DirectImpact.h"
 
+unsigned const END_SIM= 0;
+unsigned const FAILURE=1;
+unsigned const REPAIR=2;
 
 RcppExport SEXP Basicdem( SEXP, SEXP, SEXP, SEXP);
 //RcppExport SEXP demwMaint(SEXP, SEXP, SEXP, SEXP);

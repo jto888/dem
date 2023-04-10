@@ -42,21 +42,22 @@ while(!endSimulation) {
 	
 	
 	
-	switch(ev->getType()) {
-		case 0:
-			endSimulation = true;
-			break;
-		case 1:
-			OnFailure(ev, EL, EQ, OLL);
-			break;
-		case 2:
-			OnRepair(ev, EL, EQ, OLL);
-			break;
-	//Clock and/or Stores events to follow
-		default:
-			endSimulation = true;
-			break;
-	}
+	switch(ev->getType()) {			
+		case END_SIM:		
+			endSimulation = true;	
+			break;	
+		case FAILURE:		
+			OnFailure(ev, EL, EQ, OLL);	
+			break;	
+		case REPAIR:		
+			OnRepair(ev, EL, EQ, OLL);	
+			break;	
+				
+		default:		
+			endSimulation = true;	
+			break;	
+	}			
+
 
 	
 

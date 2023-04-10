@@ -23,7 +23,8 @@ void OnFailure(std::shared_ptr<DiscreteEvent>& ev,
 			
 	if(ev->getEventID() == 9991)  {	
 		if(EL->getByID(9992)->getOperable() == 0) {	
-			auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(9992)->nextRepair(), 2, 9992, 2);
+			//auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(9992)->nextRepair(), 2, 9992, 2);
+			auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(9992)->nextRepair(), REPAIR, 9992, 2);
 			EQ->insertEvent(new_event);
 		}					
 	}
@@ -42,7 +43,8 @@ void handleInlineFailure(std::shared_ptr<DiscreteEvent>& ev,
 	//If this element is active, insert its next repair on the que.
 	if(EL->getByID(element)->getActive() == 1) {
 		// note type 2 is a repair
-		auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextRepair(), 2, element, opline);
+		//auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextRepair(), 2, element, opline);
+		auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextRepair(), REPAIR, element, opline);
 		EQ->insertEvent(new_event);
 	}
 	//passivate all other elements in this OpLine (active=0)

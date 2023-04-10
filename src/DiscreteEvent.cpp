@@ -7,10 +7,11 @@
 		_eventID = eventID;
 		_oplineNum = oplineNum;
 	}
+		
 
 	double DiscreteEvent::getTime() {
 			return _time;
-	}
+	}		
 
 	int DiscreteEvent::getType(){
 		return _type;

@@ -33,7 +33,8 @@ EL->getByID(element)->setOperable(1);
 //if this element is active, insert next fail on the que.			
 ///if(EL->getByID(element)->getActive() == 1) {	
 	// note type 1 is fail		
-	auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextFail(), 1, element, opline);		
+	//auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextFail(), 1, element, opline);		
+	auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextFail(), FAILURE, element, opline);
 	EQ->insertEvent(new_event);		
 ///}			
 // if all other elements in this opline are operable, set all to active=1 
@@ -64,7 +65,8 @@ else { 	    // since other elements in this opline are failed
 			int elem_id = OLL->getByNum(opline)->getElems()[i]->getID() ;
 			int elem_ol= OLL->getByNum(opline)->getElems()[i]->getOplineNum(); 
 			// note type 2 is a repair
-			auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(elem_id)->nextRepair(), 2, elem_id, elem_ol);
+			//auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(elem_id)->nextRepair(), 2, elem_id, elem_ol);
+			auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(elem_id)->nextRepair(), REPAIR, elem_id, elem_ol);
 			EQ->insertEvent(new_event);
 		}	
 	}		

@@ -65,14 +65,14 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL,
 	for(int i=0; i<ML->getSize(); i++)  {		
 		shared_ptr<Maintenance> maint = ML->getByIndex(i) ;	
 		double maint_start = maint->getFirstInterval();	
-/*
-// I now feel that when I specified a first interval of zero I meant it.
-		if(maint_start == 0.0) {
-			maint_start = maint->getInterval();
-		}
-*/	
 
-/*	
+// I now feel that when I specified a first interval of zero I meant it.
+//		if(maint_start == 0.0) {
+//			maint_start = maint->getInterval();
+//		}
+	
+
+	
 		double maint_end = maint_start + maint->getDuration();
 		auto ev1 = make_shared<DiscreteEvent>(maint_start, 3, maint->getNum(), maint->getOplineNum());
 		auto ev2 = make_shared<DiscreteEvent>(maint_end, 4, maint->getNum(), maint->getOplineNum());
