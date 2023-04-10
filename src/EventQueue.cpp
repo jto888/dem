@@ -18,7 +18,7 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in) {
 	// construct a shared pointer to a DiscreteEvent that might not be used				
 				// note that event type 1 is an 'lruFail' event				
 		//std::shared_ptr<DiscreteEvent> ev = std::make_shared<DiscreteEvent>(elem->nextFail(), 1, elem->getID());	
-		auto ev = make_shared<DiscreteEvent>(elem->nextFail(), 1, elem->getID(), elem->getOplineNum());
+		auto ev = make_shared<DiscreteEvent>(elem->nextFail(), FAILURE, elem->getID(), elem->getOplineNum());
 	
 			// yes, this is duplicated code from insertEvent, but necessary				
 			// since eventQue is a std::vector not an EventQue object	
@@ -141,13 +141,13 @@ void EventQueue::insertEvent(shared_ptr<DiscreteEvent>& ev) {
 		for(int i=0; i < (int) eventQue.size(); i++)  {
 		std::string type_char = "X";
 			switch(eventQue[i]->getType()) {
-				case 0:
+				case END_SIM:
 					type_char = "X";
 					break;
-				case 1:
+				case FAILURE:
 					type_char = "F";
 					break;
-				case 2:
+				case REPAIR:
 					type_char = "R";
 					break;
 			//Clock and/or Stores events to follow
