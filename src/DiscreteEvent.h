@@ -7,7 +7,7 @@
 class DiscreteEvent {		
 	private:	
 		double _time;
-		int _type;   //1 is elementFail, 2 elementRepair for now, later 3 clockRing
+		int _type;   //these event types are declared as const in dem.h
 		int _eventID;  // This will hold the Element.ID for now, later with clocks it will be ClockID
 		int _oplineNum; // Will be set to zero for Clocks and other types, but having this should
 						//drop need for the Element List object going forward

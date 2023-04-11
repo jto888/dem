@@ -28,46 +28,46 @@ void handleInlineRepair(std::shared_ptr<DiscreteEvent>& ev,
 int element = ev->getEventID();			
 int opline = ev->getOplineNum();
 // set this element to operable
-EL->getByID(element)->setOperable(1);
-//// This was a problem. Always must set next fail upon repair			
-//if this element is active, insert next fail on the que.			
-///if(EL->getByID(element)->getActive() == 1) {	
+//EL->getByID(element)->setOperable(1);
+EL->getByID(element)->setAsOperable();
+
+// This was a problem. Always must set next fail upon repair			
 	// note type 1 is fail		
-	auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextFail(), 1, element, opline);		
+	//auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextFail(), 1, element, opline);		
+	auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextFail(), FAILURE, element, opline);
 	EQ->insertEvent(new_event);		
-///}			
-// if all other elements in this opline are operable, set all to active=1 
-///(unless in maintenance)			
-int allOthersOperable= 1;			
-for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {			
-	if(OLL->getByNum(opline)->getElems()[i]->getID() != element) {		
-		allOthersOperable = allOthersOperable* OLL->getByNum(opline)->getElems()[i]->getOperable();	
-	}		
-}			
-if(allOthersOperable== 1) {	
-	/// only set opline elements to active if not in maintenance
-	/// for the inMaint == 1 case this action is taken OnMaintEnd
-	if(OLL->getByNum(opline)->getMaintStatus() == 0)  {		
-		//int allOthersActive = 1;		
-		for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {	
-			OLL->getByNum(opline)->getElems()[i]->setActive(1);		
-		}
-	}		
-}			
-else { 	    // since other elements in this opline are failed		
-	// set this element to active=0 (make it passive, it could indeed fail again while still down)		
-	EL->getByID(element)->setActive(0);		
- // any failed elements in this opline are now set to active and their repair events are inserted into the que.			
-	for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {		
-		if(OLL->getByNum(opline)->getElems()[i]->getOperable() == 0) {	
-			OLL->getByNum(opline)->getElems()[i]->setActive(1) ;
-			int elem_id = OLL->getByNum(opline)->getElems()[i]->getID() ;
-			int elem_ol= OLL->getByNum(opline)->getElems()[i]->getOplineNum(); 
-			// note type 2 is a repair
-			auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(elem_id)->nextRepair(), 2, elem_id, elem_ol);
-			EQ->insertEvent(new_event);
-		}	
-	}		
-}			
 			
+// if all other elements in this opline are operable, set all to active=1 
+///(unless in maintenance)
+if(OLL->getByNum(opline)->getMaintStatus() == 0)  {				
+	int allOthersOperable= 1;			
+	for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {			
+		if(OLL->getByNum(opline)->getElems()[i]->getID() != element) {		
+			allOthersOperable = allOthersOperable* OLL->getByNum(opline)->getElems()[i]->getOperable();	
+		}		
+	}			
+	if(allOthersOperable== 1) {			
+		for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {	
+			OLL->getByNum(opline)->getElems()[i]->setAsActive();		
+		}		
+	}			
+	else { 	    // since at least one other element in this opline is failed		
+		// assure this element is dormant, it could indeed fail again while still down)	
+			/// this step should be unnecessary, since active-failed state is not utilized.
+		EL->getByID(element)->setAsDormant();		
+	  // the first element in this opline found to be failed will now have its  repair event is inserted into the que.		
+		for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {		
+			if(OLL->getByNum(opline)->getElems()[i]->getOperable() == 0) {	
+				//OLL->getByNum(opline)->getElems()[i]->setActive(1) ;
+				int elem_id = OLL->getByNum(opline)->getElems()[i]->getID() ;
+				int elem_ol= OLL->getByNum(opline)->getElems()[i]->getOplineNum(); 
+				// note type 2 is a repair
+				//auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(elem_id)->nextRepair(), 2, elem_id, elem_ol);
+				auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(elem_id)->nextRepair(), REPAIR, elem_id, elem_ol);
+				EQ->insertEvent(new_event);
+				break;   ///this break assures only one repair at a time
+			}	
+		}		
+	}			
+}			
 }
