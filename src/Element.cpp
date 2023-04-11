@@ -131,8 +131,24 @@ void Element::setActive(int activeState) {
 	active = activeState;
 }
 
+void Element::setAsActive()  {
+	active = 1;
+}
+
+void Element::setAsDormant() {
+	active = 0;
+|	
+	
 void Element::setOperable(int operableState) {
 	operable = operableState;
+}
+ 
+void Element::setAsOperable() {
+	operable = 1;
+}
+
+void Element::setAsFailed() {
+	operable = 0;
 }
 
 int Element::numRands() {

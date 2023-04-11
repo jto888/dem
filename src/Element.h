@@ -38,8 +38,12 @@ class Element {
 			
 		int getOperable();	
 		int getActive();	
-		void setActive(int);	
+		void setActive(int);
+		void setAsActive();
+		void setAsDormant();
 		void setOperable(int);
+		void setAsOperable();
+		void setAsFailed();
 		int numRands();
 		int numFails();
 		double sumRepairs();
