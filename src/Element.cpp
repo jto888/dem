@@ -137,7 +137,7 @@ void Element::setAsActive()  {
 
 void Element::setAsDormant() {
 	active = 0;
-|	
+}	
 	
 void Element::setOperable(int operableState) {
 	operable = operableState;
