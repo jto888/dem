@@ -26,7 +26,7 @@
 	std::shared_ptr<OpLineList> OLL(new OpLineList(EL, dep_in));		
 			
 			
-	return Rcpp::wrap(OLL->getRotDeps()[0]);		
+	return OLL->getDepRow(0);		
 			
 			
 }			

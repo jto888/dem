@@ -44,13 +44,22 @@ OpLineList::OpLineList(std::unique_ptr<ElementList>& EL, SEXP dep_in) {
 	int df_cols = deps_v[0];	
 	int df_rows = (int) deps_v.size()/df_cols;	
 	deps_v.erase(deps_v.begin());	
-		
-// this works with no need to wrap rot_deps on return		
-// and elements can be accessed in rot_deps[ ] [ ] notation.		
-	//std::vector<Rcpp::NumericVector> rot_deps;	
+			
+// elements can be accessed in rot_deps[ ] [ ] notation.		
+	std::vector<Rcpp::NumericVector> rot_deps;	
 	for(int v=0; v<df_cols; v++) {	
 		rot_deps.push_back(Rcpp::wrap(deps_v.begin()+v*df_rows, std::next(deps_v.begin()+v*df_rows, df_rows)));
 	}	
+
+	//std::vector<Rcpp::NumericVector>> dep_rows;		
+	for(int j=0; j<df_rows; j++) {		
+		Rcpp::NumericVector dep_row(df_cols);	
+		for(int i=0; i<df_cols; i++) {	
+			dep_row.push_back(rot_deps[j][i]);
+		}	
+		dep_rows.push_back(dep_row);	
+	}
+
 				
 }		
 
@@ -77,7 +86,7 @@ OpLineList::OpLineList(std::unique_ptr<ElementList>& EL, SEXP dep_in) {
 	}
 
 
-	std::vector<Rcpp::NumericVector> OpLineList::getRotDeps() {
-		return rot_deps;
+	Rcpp::NumericVector OpLineList::getDepRow(int row_num) {
+		return dep_rows[row_num];
 	}
 	
