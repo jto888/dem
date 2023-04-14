@@ -25,6 +25,8 @@ unsigned const FAILURE=1;
 unsigned const REPAIR=2;
 
 RcppExport SEXP Basicdem( SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP DEMwDep(SEXP, SEXP, SEXP, SEXP, SEXP);
+
 //RcppExport SEXP demwMaint(SEXP, SEXP, SEXP, SEXP);
 //RcppExport SEXP demwActionswMaint(SEXP, SEXP, SEXP, SEXP, SEXP);
 

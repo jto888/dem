@@ -1,7 +1,7 @@
    // Basicdem.cpp file
  /*
  * Author: David Silkworth
- *         (c) 2020 OpenReliability.org
+ *         (c) 2020-2023 OpenReliability.org
  */
 
 
