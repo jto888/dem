@@ -39,28 +39,22 @@ OpLineList::OpLineList(std::unique_ptr<ElementList>& EL, SEXP dep_in) {
 		_oplines.push_back(std::make_shared<OpLine>(EL, opline_v[i]));
 	}	
 		
-	// read in the dependency vector as an arma::mat	
-	Rcpp::NumericVector deps_v = dep_in;	
+	// read in the dependency vector	
+	Rcpp::IntegerVector deps_v = dep_in;	
 	int df_cols = deps_v[0];	
 	int df_rows = (int) deps_v.size()/df_cols;	
 	deps_v.erase(deps_v.begin());	
 			
-// elements can be accessed in rot_deps[ ] [ ] notation.		
-	std::vector<Rcpp::NumericVector> rot_deps;	
-	for(int v=0; v<df_cols; v++) {	
-		rot_deps.push_back(Rcpp::wrap(deps_v.begin()+v*df_rows, std::next(deps_v.begin()+v*df_rows, df_rows)));
-	}	
-
-	//std::vector<Rcpp::NumericVector>> dep_rows;		
-	for(int j=0; j<df_rows; j++) {		
-		Rcpp::NumericVector dep_row(df_cols);	
-		for(int i=0; i<df_cols; i++) {	
-			dep_row.push_back(rot_deps[j][i]);
+	// reconstruct the dataframe as a vector of NumericVectors		
+	//std::vector<Rcpp::IntegerVector>  dep_rows;		
+	for(int i=0; i<df_rows; i++) {		
+		Rcpp::IntegerVector dep_row(df_cols);	
+		for(int j=0; j<df_cols; j++) {	
+			dep_row[j] = deps_v[i+j*df_rows];
 		}	
 		dep_rows.push_back(dep_row);	
-	}
-
-				
+	}		
+			
 }		
 
 	
@@ -86,7 +80,7 @@ OpLineList::OpLineList(std::unique_ptr<ElementList>& EL, SEXP dep_in) {
 	}
 
 
-	Rcpp::NumericVector OpLineList::getDepRow(int row_num) {
+	Rcpp::IntegerVector OpLineList::getDepRow(int row_num) {
 		return dep_rows[row_num];
 	}
 	

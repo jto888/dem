@@ -8,7 +8,7 @@
 class OpLineList {		
 	private:	
 		std::vector<std::shared_ptr<class OpLine>> _oplines;
-		std::vector<Rcpp::NumericVector> dep_rows;
+		std::vector<Rcpp::IntegerVector>  dep_rows;
 		
 	public:	
 		OpLineList(std::unique_ptr<ElementList>& EL);
@@ -17,7 +17,7 @@ class OpLineList {
 		int getSize();
 		std::shared_ptr<OpLine> getByIndex(int index);
 		std::shared_ptr<OpLine>  getByNum(int num);
-		Rcpp::NumericVector getDepRow(int row_num);
+		Rcpp::IntegerVector getDepRow(int row_num);
 		
 };		
 
