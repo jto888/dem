@@ -54,7 +54,21 @@ OpLineList::OpLineList(std::unique_ptr<ElementList>& EL, SEXP dep_in) {
 		}	
 		dep_rows.push_back(dep_row);	
 	}		
-			
+	
+	// place dependency data in each applicable OpLine		
+	for(int i=0; i<df_rows; i++) {		
+		int opline = dep_rows[i][0];	
+		if(df_rows==2 || dep_rows[i][1]==0) {	
+			//OLL->getByNum(opline)->addDirectDependent(dep_rows[i][ncol-1]);/
+			getByNum(opline)->addDirectDependent(dep_rows[i][df_cols-1]);
+		}else{	
+			Rcpp::IntegerVector co_enabled_row = dep_rows[i];
+			co_enabled_row.erase(co_enabled_row.begin());
+			//OLL->getByNum(opline)->addCoEnabledDependent(co_enabled_row);
+			getByNum(opline)->addCoEnabledDependent(co_enabled_row);
+		}	
+	}		
+	
 }		
 
 	

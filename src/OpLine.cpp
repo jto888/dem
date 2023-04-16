@@ -36,6 +36,20 @@
 	void OpLine::setInMaint(int in_maint) {
 		inMaint = in_maint;
 	}
+	
+	Rcpp::IntegerVector OpLine::getCoEnabledDependentRow(int row_num){
+		return co_enabled_dependents[row_num];
+	}
+	
+	void OpLine::addDirectDependent(int dep) {
+		direct_dependents.push_back(dep);
+	}
+	
+	void OpLine::addCoEnabledDependent(Rcpp::IntegerVector co_enabled_row){
+		co_enabled_dependents.push_back(co_enabled_row);
+	}
+
+	
 /*	
 	void OpLine::addDirectImpact(int target, double probability) {
 		direct_impacts.push_back(DirectImpact(target, probability));
