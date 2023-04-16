@@ -24,10 +24,11 @@
 			
 	// note OLL is now a shared_ptr for storage in History		
 	std::shared_ptr<OpLineList> OLL(new OpLineList(EL, dep_in));		
-			
-			
-	return OLL->getDepRow(10);		
-			
-			
+		
+	//return Rcpp::wrap(OLL->getByNum(9)->getDirectDependents());
+	//return Rcpp::wrap(OLL->getByNum(1)->getDirectDependents().empty());
+	//return Rcpp::wrap(OLL->getByNum(1)->getDirectDependents().size());		
+	//return Rcpp::wrap(OLL->getByNum(1)->getCoEnabledDependents().size());	
+	return Rcpp::wrap(OLL->getByNum(1)->getCoEnabledDependents());
 }			
 			

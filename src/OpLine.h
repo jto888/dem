@@ -22,10 +22,15 @@ class OpLine {
 		int getMaintStatus();
 		void setInMaint(int);
 		std::vector<int> getDirectDependents();
-		Rcpp::IntegerVector getCoEnabledDependentRow(int row_num);
+		std::vector<Rcpp::IntegerVector> getCoEnabledDependents();
+		//Rcpp::IntegerVector getCoEnabledDependentRow(int row_num);
 		void addDirectDependent(int dep);
 		void addCoEnabledDependent(Rcpp::IntegerVector co_enabled_row);
-		
+		//bool DirectDependentsEmpty();
+		//bool CoEnabledDependentsEmpty();
+
+
+
 
 
 		//std::vector<DirectImpact> getDirectImpacts();
