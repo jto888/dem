@@ -15,6 +15,7 @@
 #include "EventQueue.h"
 #include "History.h"
 #include "Summary.h"
+#include "FailureAndRepair.h"
 //#include "Maintenance.h"
 //#include "MaintList.h"
 //#include "Actions.h"
@@ -31,33 +32,6 @@ RcppExport SEXP DEMwDep(SEXP, SEXP, SEXP, SEXP, SEXP);
 //RcppExport SEXP demwActionswMaint(SEXP, SEXP, SEXP, SEXP, SEXP);
 
 
-void OnFailure(std::shared_ptr<DiscreteEvent>& ev,
-		std::unique_ptr<ElementList>& EL,
-		std::shared_ptr<EventQueue>& EQ,
-		std::shared_ptr<OpLineList>& OLL);
-		
-void handleInlineFailure(std::shared_ptr<DiscreteEvent>& ev,
-		std::unique_ptr<ElementList>& EL,
-		std::shared_ptr<EventQueue>& EQ,
-		std::shared_ptr<OpLineList>& OLL);
-void OnRepair(std::shared_ptr<DiscreteEvent>& ev,
-		std::unique_ptr<ElementList>& EL,
-		std::shared_ptr<EventQueue>& EQ,
-		std::shared_ptr<OpLineList>& OLL);
-		
-void handleInlineRepair(std::shared_ptr<DiscreteEvent>& ev,
-		std::unique_ptr<ElementList>& EL,
-		std::shared_ptr<EventQueue>& EQ,
-		std::shared_ptr<OpLineList>& OLL);
-
-void recursive_dependency_activator(
-		std::shared_ptr<OpLineList>& OLL, 
-		int this_opline);
-
-void recursive_dependency_passivator(
-		//std::unique_ptr<ElementList>& EL,
-		std::shared_ptr<OpLineList>& OLL, 
-		int this_opline);
 
 /*		
 void OnMaintStart(std::shared_ptr<DiscreteEvent>& ev,
