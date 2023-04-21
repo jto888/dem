@@ -9,10 +9,11 @@
 
 #include "Element.h"
 #include "ElementList.h"
+#include "EventQueue.h"
 #include "OpLine.h"
 #include "OpLineList.h"
 #include "DiscreteEvent.h"
-#include "EventQueue.h"
+
 #include "History.h"
 #include "Summary.h"
 //#include "Maintenance.h"
