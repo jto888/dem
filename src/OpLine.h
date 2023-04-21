@@ -2,12 +2,13 @@
 #define _opline_H
 
 #include "dem.h"
-//#include "DirectImpact.h"
+#include "EventQueue.h"
 
 class OpLine {		
 	private:	
 		int num;
 		int inMaint;
+		std::shared_ptr<EventQueue> EQ;
 		std::vector<std::shared_ptr<class Element>> elems;
 		std::vector<int> direct_dependents;
 		std::vector<Rcpp::IntegerVector>  co_enabled_dependents;
