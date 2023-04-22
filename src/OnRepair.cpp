@@ -36,6 +36,24 @@ EL->getByID(element)->setAsOperable();
 	//auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextFail(), 1, element, opline);		
 	auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextFail(), FAILURE, element, opline);
 	EQ->insertEvent(new_event);	
+	
+// if all other elements in this opline are operable, set all to active=1 						
+///(unless in maintenance)						
+if(OLL->getByNum(opline)->getMaintStatus() == 0)  {						
+	//if(OLLgetByNum(opline)->activateOrRepair() == 1) {					
+	if(activateOrRepair(opline, ev, EL, EQ, OLL) == 1 ) {					
+		int num_ddeps = OLL->getByNum(opline)->getDirectDependents().size();				
+		if(num_ddeps >0) {				
+			for(int i=0; i<num_ddeps; i++) {			
+				int dep_opline = OLL->getByNum(opline)->getDirectDependents()[i];		
+				if(OLL->getByNum(dep_opline)->getMaintStatus() == 0)  {		
+					activateOrRepair(dep_opline, ev, EL, EQ, OLL);	
+				}		
+			}			
+		}				
+	}					
+}						
+	
 }	
 /*			
 // if all other elements in this opline are operable, set all to active=1 
