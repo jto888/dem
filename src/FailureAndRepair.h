@@ -23,6 +23,13 @@ void handleInlineRepair(std::shared_ptr<DiscreteEvent>& ev,
 		std::shared_ptr<EventQueue>& EQ,
 		std::shared_ptr<OpLineList>& OLL);
 
+int activateOrRepair(int opline,
+ 		std::shared_ptr<DiscreteEvent>& ev,		
+		std::unique_ptr<ElementList>& EL,			
+		std::shared_ptr<EventQueue>& EQ,			
+		std::shared_ptr<OpLineList>& OLL);		
+
+
 void recursive_dependency_activator(
 		std::shared_ptr<OpLineList>& OLL, 
 		int this_opline);
