@@ -49,11 +49,23 @@ void handleInlineFailure(std::shared_ptr<DiscreteEvent>& ev,
 		auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextRepair(), REPAIR, element, opline);
 		EQ->insertEvent(new_event);
 	}
-	//set all elements in this OpLine as Dormant (active=0)
-	for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {
-		//if(OLL->getByNum(opline)->getElems()[i]->getID() != element) {
-			//OLL->getByNum(opline)->getElems()[i]->setActive(0);
-			OLL->getByNum(opline)->getElems()[i]->setAsDormant();
-		//}
+	//set all elements in this OpLine as Dormant			
+	for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {			
+		OLL->getByNum(opline)->getElems()[i]->setAsDormant();		
 	}
+				
+	// test for dependencies and set elements in those oplines to dormant			
+	if(OLL->getByNum(opline)->getDirectDependents().size() > 0) {
+		
+		std::vector<int> deps = OLL->getByNum(opline)->getDirectDependents();		
+		for(int j=0; j < (int) deps.size(); j++) {
+
+			//deps[j] is the dependent opline 	
+			//this is the place to call recursion	
+			for(int i=0; i <  (int) OLL->getByNum(deps[j])->getElems().size(); i++) {	
+				OLL->getByNum(deps[j])->getElems()[i]->setAsDormant();
+			}	
+		}		
+	}			
+
 }
