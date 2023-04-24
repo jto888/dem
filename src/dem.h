@@ -15,6 +15,7 @@
 #include "EventQueue.h"
 #include "History.h"
 #include "Summary.h"
+#include "FailureAndRepair.h"
 //#include "Maintenance.h"
 //#include "MaintList.h"
 //#include "Actions.h"
@@ -25,28 +26,12 @@ unsigned const FAILURE=1;
 unsigned const REPAIR=2;
 
 RcppExport SEXP Basicdem( SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP DEMwDep(SEXP, SEXP, SEXP, SEXP, SEXP);
+
 //RcppExport SEXP demwMaint(SEXP, SEXP, SEXP, SEXP);
 //RcppExport SEXP demwActionswMaint(SEXP, SEXP, SEXP, SEXP, SEXP);
 
 
-void OnFailure(std::shared_ptr<DiscreteEvent>& ev,
-		std::unique_ptr<ElementList>& EL,
-		std::shared_ptr<EventQueue>& EQ,
-		std::shared_ptr<OpLineList>& OLL);
-		
-void handleInlineFailure(std::shared_ptr<DiscreteEvent>& ev,
-		std::unique_ptr<ElementList>& EL,
-		std::shared_ptr<EventQueue>& EQ,
-		std::shared_ptr<OpLineList>& OLL);
-void OnRepair(std::shared_ptr<DiscreteEvent>& ev,
-		std::unique_ptr<ElementList>& EL,
-		std::shared_ptr<EventQueue>& EQ,
-		std::shared_ptr<OpLineList>& OLL);
-		
-void handleInlineRepair(std::shared_ptr<DiscreteEvent>& ev,
-		std::unique_ptr<ElementList>& EL,
-		std::shared_ptr<EventQueue>& EQ,
-		std::shared_ptr<OpLineList>& OLL);
 
 /*		
 void OnMaintStart(std::shared_ptr<DiscreteEvent>& ev,

@@ -143,6 +143,7 @@ void History::setLastDuration(double time_now) {
 int History::update(std::shared_ptr<DiscreteEvent>& ev ) {
 	double time_now = ev->getTime();
 	int headspace = hist_size - (pos+1);
+
 	if(headspace > 0) {
 		if(ev->getType() > 0) {
 			if(__duration[pos]>0 || showZeros==1) {
@@ -150,11 +151,7 @@ int History::update(std::shared_ptr<DiscreteEvent>& ev ) {
 				pos = pos +1;
 				__time(pos) = time_now;
 			}
-
-			for(int i=0; i< _OLL->getSize(); i++)  {
-				detail[i][pos] = _OLL->getByIndex(i)->getStatus();
-			}
-			
+		
 			for(int i=0; i< _OLL->getSize(); i++)  {
 				__detail(pos,i) = _OLL->getByIndex(i)->getStatus();
 			}

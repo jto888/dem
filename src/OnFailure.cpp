@@ -49,11 +49,45 @@ void handleInlineFailure(std::shared_ptr<DiscreteEvent>& ev,
 		auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextRepair(), REPAIR, element, opline);
 		EQ->insertEvent(new_event);
 	}
-	//set all elements in this OpLine as Dormant (active=0)
-	for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {
-		//if(OLL->getByNum(opline)->getElems()[i]->getID() != element) {
-			//OLL->getByNum(opline)->getElems()[i]->setActive(0);
-			OLL->getByNum(opline)->getElems()[i]->setAsDormant();
-		//}
+	//set all elements in this OpLine as Dormant			
+	for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {			
+		OLL->getByNum(opline)->getElems()[i]->setAsDormant();		
 	}
+				
+	// test for dependencies and set elements in those oplines to dormant			
+	if(OLL->getByNum(opline)->getDirectDependents().size() > 0) {
+		
+		std::vector<int> deps = OLL->getByNum(opline)->getDirectDependents();		
+		for(int j=0; j < (int) deps.size(); j++) {
+
+			//deps[j] is the dependent opline 	
+			for(int i=0; i <  (int) OLL->getByNum(deps[j])->getElems().size(); i++) {	
+				OLL->getByNum(deps[j])->getElems()[i]->setAsDormant();
+			//this is the place to call recursion					
+			}	
+		}		
+	}			
+	// test for co enabled dependents and set to dormancy depending on the co enabler status				
+	if(OLL->getByNum(opline)->getCoEnabledDependents().size() > 0) {				
+		for(int i=0; i < (int) OLL->getByNum(opline)->getCoEnabledDependents().size(); i++) {			
+			Rcpp::IntegerVector codeps = OLL->getByNum(opline)->getCoEnabledDependents()[i];		
+			int codeps_up = 0;		
+			int codeps_len = (int) codeps.size();		
+			for(int j=0; j<(codeps_len -1) ; j++) {		
+				if(codeps[j] == 0) break;	
+				codeps_up = codeps_up + OLL->getByNum(codeps[j])->getStatus();	
+			}		
+			if(codeps_up == 0) {		
+				int target = codeps[(codeps_len -1)];	
+				for(int k=0; k <  (int) OLL->getByNum(target)->getElems().size(); k++) {	
+					OLL->getByNum(target)->getElems()[k]->setAsDormant();
+			// At this point there could be a recursive call for any dependencies the target opline					
+				}	
+
+			}		
+		}			
+	}				
+
 }
+
+

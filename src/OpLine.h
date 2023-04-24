@@ -2,14 +2,17 @@
 #define _opline_H
 
 #include "dem.h"
-//#include "DirectImpact.h"
+//#include "EventQueue.h"
 
 class OpLine {		
 	private:	
 		int num;
 		int inMaint;
+		//std::shared_ptr<EventQueue> EQ;
 		std::vector<std::shared_ptr<class Element>> elems;
-		//std::vector<class DirectImpact> direct_impacts;
+		std::vector<int> direct_dependents;
+		std::vector<Rcpp::IntegerVector>  co_enabled_dependents;
+
 
 
 	public:	
@@ -19,7 +22,18 @@ class OpLine {
 		int getNum();
 		int getMaintStatus();
 		void setInMaint(int);
-		//void addDirectImpact(int target, double probability);
+		std::vector<int> getDirectDependents();
+		std::vector<Rcpp::IntegerVector> getCoEnabledDependents();
+		//Rcpp::IntegerVector getCoEnabledDependentRow(int row_num);
+		void addDirectDependent(int dep);
+		void addCoEnabledDependent(Rcpp::IntegerVector co_enabled_row);
+		//bool DirectDependentsEmpty();
+		//bool CoEnabledDependentsEmpty();
+
+
+
+
+
 		//std::vector<DirectImpact> getDirectImpacts();
 };
 
