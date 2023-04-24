@@ -37,60 +37,40 @@ EL->getByID(element)->setAsOperable();
 	auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextFail(), FAILURE, element, opline);
 	EQ->insertEvent(new_event);	
 	
-// if all other elements in this opline are operable, set all to active=1 						
-///(unless in maintenance)						
-if(OLL->getByNum(opline)->getMaintStatus() == 0)  {						
-	//if(OLLgetByNum(opline)->activateOrRepair() == 1) {					
-	if(activateOrRepair(opline, ev, EL, EQ, OLL) == 1 ) {					
-		int num_ddeps = OLL->getByNum(opline)->getDirectDependents().size();				
-		if(num_ddeps >0) {				
-			for(int i=0; i<num_ddeps; i++) {			
-				int dep_opline = OLL->getByNum(opline)->getDirectDependents()[i];		
-				if(OLL->getByNum(dep_opline)->getMaintStatus() == 0)  {		
-					activateOrRepair(dep_opline, ev, EL, EQ, OLL);	
-				}		
-			}			
-		}				
-	}					
-}						
-	
+	// if all other elements in this opline are operable, set all to active=1 						
+	///(unless in maintenance)						
+	if(OLL->getByNum(opline)->getMaintStatus() == 0)  {						
+		//if(OLLgetByNum(opline)->activateOrRepair() == 1) {					
+		if(activateOrRepair(opline, ev, EL, EQ, OLL) == 1 ) {					
+			int num_ddeps = OLL->getByNum(opline)->getDirectDependents().size();				
+			if(num_ddeps >0) {				
+				for(int i=0; i<num_ddeps; i++) {			
+					int dep_opline = OLL->getByNum(opline)->getDirectDependents()[i];		
+					if(OLL->getByNum(dep_opline)->getMaintStatus() == 0)  {		
+						activateOrRepair(dep_opline, ev, EL, EQ, OLL);	
+					}		
+				}			
+			}				
+		}
+		// This repair may enable a co-enabled dependency			
+		if(OLL->getByNum(opline)->getCoEnabledDependents().size() > 0) {			
+			// loop through target OpLines and activate or repair, if dormant		
+			for(int i=0; i < (int) OLL->getByNum(opline)->getCoEnabledDependents().size(); i++) {		
+				Rcpp::IntegerVector codeps = OLL->getByNum(opline)->getCoEnabledDependents()[i];	
+				int codeps_len = (int) codeps.size();	
+				int target = codeps[(codeps_len -1)];	
+				if(OLL->getByNum(target)->getMaintStatus() == 0) {
+				// I really did not want to repair an element that already had repair in queue
+				// but this test does not do that
+				//if(OLL->getByNum(target)->getStatus() == 0) {	
+					activateOrRepair(target, ev, EL, EQ, OLL);
+				//}
+				}
+			}		
+		}
+	}	
 }	
-/*			
-// if all other elements in this opline are operable, set all to active=1 
-///(unless in maintenance)
-if(OLL->getByNum(opline)->getMaintStatus() == 0)  {				
-	int allOthersOperable= 1;			
-	for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {			
-		if(OLL->getByNum(opline)->getElems()[i]->getID() != element) {		
-			allOthersOperable = allOthersOperable* OLL->getByNum(opline)->getElems()[i]->getOperable();	
-		}		
-	}			
-	if(allOthersOperable== 1) {			
-		for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {	
-			OLL->getByNum(opline)->getElems()[i]->setAsActive();		
-		}		
-	}			
-	else { 	    // since at least one other element in this opline is failed		
-		// assure this element is dormant, it could indeed fail again while still down)	
-			/// this step should be unnecessary, since active-failed state is not utilized.
-		EL->getByID(element)->setAsDormant();		
-	  // the first element in this opline found to be failed will now have its  repair event is inserted into the que.		
-		for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {		
-			if(OLL->getByNum(opline)->getElems()[i]->getOperable() == 0) {	
-				//OLL->getByNum(opline)->getElems()[i]->setActive(1) ;
-				int elem_id = OLL->getByNum(opline)->getElems()[i]->getID() ;
-				int elem_ol= OLL->getByNum(opline)->getElems()[i]->getOplineNum(); 
-				// note type 2 is a repair
-				//auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(elem_id)->nextRepair(), 2, elem_id, elem_ol);
-				auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(elem_id)->nextRepair(), REPAIR, elem_id, elem_ol);
-				EQ->insertEvent(new_event);
-				break;   ///this break assures only one repair at a time
-			}	
-		}		
-	}			
-}			
-}
-*/
+
 
 int activateOrRepair(int opline, 
 	std::shared_ptr<DiscreteEvent>& ev,						
