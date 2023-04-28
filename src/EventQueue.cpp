@@ -63,16 +63,10 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in, SEXP mai
 	}
 	
 	// Read all maintenance events and place them onto the queue							
-								
-	// We know there are 4 columns in the maint dataframe							
-	// So 4 is hard coded here to get the number of rows							
-								
 	Rcpp::IntegerVector maint_v = maint_in;							
-	int df_cols = 4;							
-	int df_rows = (int) maint_v.size()/df_cols;							
-								
-								
-								
+	int df_cols = maint_v[0];
+	maint_v.erase(maint_v.begin());
+	int df_rows = (int) maint_v.size()/df_cols;	
 								
 	for(int i=0; i<df_rows; i++) {							
 		Rcpp::IntegerVector maint_row(df_cols);						
