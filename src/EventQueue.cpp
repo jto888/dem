@@ -35,10 +35,8 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in) {
 	}
 }
 
-/*
-EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, 
-					   std::unique_ptr<MaintList>& ML, 
-					   SEXP years_in) {
+EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in, SEXP maint_in) {
+					
 						
 	simhours=Rcpp::as<double>(years_in)*365.0*24.0;	
 	eventQue.push_back(std::make_shared<DiscreteEvent>(simhours, 0, 0,0));				
@@ -48,7 +46,7 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL,
 	// construct a shared pointer to a DiscreteEvent that might not be used				
 				// note that event type 1 is an 'lruFail' event				
 		//std::shared_ptr<DiscreteEvent> ev = std::make_shared<DiscreteEvent>(elem->nextFail(), 1, elem->getID());	
-		auto ev = make_shared<DiscreteEvent>(elem->nextFail(), 1, elem->getID(), elem->getOplineNum());
+		auto ev = make_shared<DiscreteEvent>(elem->nextFail(), FAILURE, elem->getID(), elem->getOplineNum());
 	
 			// yes, this is duplicated code from insertEvent, but necessary				
 			// since eventQue is a std::vector not an EventQue object	
@@ -60,44 +58,77 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL,
 				}
 			}	
 		}
-	}
 
-	for(int i=0; i<ML->getSize(); i++)  {		
-		shared_ptr<Maintenance> maint = ML->getByIndex(i) ;	
-		double maint_start = maint->getFirstInterval();	
-
-// I now feel that when I specified a first interval of zero I meant it.
-//		if(maint_start == 0.0) {
-//			maint_start = maint->getInterval();
-//		}
-	
-
-	
-		double maint_end = maint_start + maint->getDuration();
-		auto ev1 = make_shared<DiscreteEvent>(maint_start, 3, maint->getNum(), maint->getOplineNum());
-		auto ev2 = make_shared<DiscreteEvent>(maint_end, 4, maint->getNum(), maint->getOplineNum());
 		
-		if (ev1->getTime()< simhours) {
-			 for (auto it = eventQue.begin(); it != eventQue.end(); it++) { 
-				if( (*it)->getTime() > ev1->getTime() )  {
-					 eventQue.insert(it,ev1);
-					 break;
-				}
-			}	
-		}
-		if (ev2->getTime()< simhours) {
-			 for (auto it = eventQue.begin(); it != eventQue.end(); it++) { 
-				if( (*it)->getTime() > ev2->getTime() )  {
-					 eventQue.insert(it,ev2);
-					 break;
-				}
-			}	
-		}		
 	}
+	
+	// Read all maintenance events and place them onto the queue							
+								
+	// We know there are 4 columns in the maint dataframe							
+	// So 4 is hard coded here to get the number of rows							
+								
+	Rcpp::IntegerVector maint_v = maint_in;							
+	int df_cols = 4;							
+	int df_rows = (int) maint_v.size()/df_cols;							
+								
+								
+								
+								
+	for(int i=0; i<df_rows; i++) {							
+		Rcpp::IntegerVector maint_row(df_cols);						
+		for(int j=0; j<df_cols; j++) {						
+			maint_row[j] = maint_v[i + j*df_rows];					
+		}						
+								
+		//int num = (int) maint_row[0];						
+		int opline =   maint_row[0];						
+		double interval =  (double) maint_row[1];						
+		double duration =   (double) maint_row[2];						
+		double first_interval = (double) maint_row[3];						
+		double maint_start = 0.0;						
+		double maint_end = 0.0;						
+								
+								
+								
+								
+		// this do loop inserts all maintenance events on the queue.						
+		do {						
+			if(maint_start < 1.0) {					
+				maint_start = (double) first_interval;				
+			}else{					
+				maint_start = maint_end +  interval;				
+			}					
+			maint_end = maint_start +  duration;					
+								
+								
+								
+			//DiscreteEvent( double time, int type, int eventID, int oplineNum);					
+			auto ev1 = make_shared<DiscreteEvent>(maint_start, MAINT_START, 0, opline);					
+			auto ev2 = make_shared<DiscreteEvent>(maint_end, MAINT_END, 0, opline);					
+								
+			if (ev1->getTime()< simhours) {					
+				 for (auto it = eventQue.begin(); it != eventQue.end(); it++) { 				
+					if( (*it)->getTime() > ev1->getTime() )  {			
+						 eventQue.insert(it,ev1);		
+						 break;		
+					}			
+				}				
+			}					
+			if (ev2->getTime()< simhours) {					
+				 for (auto it = eventQue.begin(); it != eventQue.end(); it++) { 				
+					if( (*it)->getTime() > ev2->getTime() )  {			
+						 eventQue.insert(it,ev2);		
+						 break;		
+					}			
+				}				
+			}					
+								
+		}						
+		while(maint_end < simhours);					
+								
+	}  // get the next opline for maintenance							
 	
 }
-
-*/
 
 
 void EventQueue::insertEvent(shared_ptr<DiscreteEvent>& ev) {

@@ -17,11 +17,8 @@ class EventQueue {
 		
 	public:	
 		  EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in);
-		/*  
-		  EventQueue(std::unique_ptr<ElementList>& EL, 
-			     std::unique_ptr<MaintList>& ML, 
-			     SEXP years_in);
-		*/
+		  EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in, SEXP maint_in);
+
 		
 		void insertEvent(std::shared_ptr<DiscreteEvent>& ev);
 		std::shared_ptr<DiscreteEvent> pullNext();
