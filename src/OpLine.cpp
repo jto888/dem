@@ -37,6 +37,13 @@
 		inMaint = in_maint;
 	}
 	
+	void OpLine::incrementInMaint() {
+		inMaint = inMaint + 1;
+	}
+	
+	void OpLine::decrementInMaint() {
+		inMaint = inMaint - 1;
+	}	
 	void OpLine::addDirectDependent(int dep) {
 		direct_dependents.push_back(dep);
 	}

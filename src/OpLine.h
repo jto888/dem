@@ -22,6 +22,8 @@ class OpLine {
 		int getNum();
 		int getMaintStatus();
 		void setInMaint(int);
+		void incrementInMaint(int);
+		void decrementInMaint(int);
 		std::vector<int> getDirectDependents();
 		std::vector<Rcpp::IntegerVector> getCoEnabledDependents();
 		//Rcpp::IntegerVector getCoEnabledDependentRow(int row_num);
