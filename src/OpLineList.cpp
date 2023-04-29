@@ -41,9 +41,10 @@ OpLineList::OpLineList(std::unique_ptr<ElementList>& EL, SEXP dep_in) {
 		
 	// read in the dependency vector	
 	Rcpp::IntegerVector deps_v = dep_in;	
-	int df_cols = deps_v[0];	
-	int df_rows = (int) deps_v.size()/df_cols;	
+	int df_cols = deps_v[0];
 	deps_v.erase(deps_v.begin());	
+	int df_rows = (int) deps_v.size()/df_cols;	
+	
 			
 	// reconstruct the dataframe as a vector of NumericVectors		
 	//std::vector<Rcpp::IntegerVector>  dep_rows;		

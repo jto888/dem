@@ -67,34 +67,39 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in, SEXP mai
 	int df_cols = maint_v[0];
 	maint_v.erase(maint_v.begin());
 	int df_rows = (int) maint_v.size()/df_cols;	
-								
+	
 	for(int i=0; i<df_rows; i++) {							
 		Rcpp::IntegerVector maint_row(df_cols);						
 		for(int j=0; j<df_cols; j++) {						
 			maint_row[j] = maint_v[i + j*df_rows];					
 		}						
+	
+						
+		opline =   maint_row[0];						
+		interval =  (double) maint_row[1];						
+		duration =   (double) maint_row[2];						
+		first_interval = (double) maint_row[3];						
+		maint_start = 0.0;						
+		maint_end = 0.0;						
 								
-		//int num = (int) maint_row[0];						
-		int opline =   maint_row[0];						
-		double interval =  (double) maint_row[1];						
-		double duration =   (double) maint_row[2];						
-		double first_interval = (double) maint_row[3];						
-		double maint_start = 0.0;						
-		double maint_end = 0.0;						
-								
+	
 								
 								
 								
 		// this do loop inserts all maintenance events on the queue.						
-		do {						
-			if(maint_start < 1.0) {					
-				maint_start = (double) first_interval;				
+		do {	
+//for(int k=0; k<4; k++) {
+	
+			if(maint_end < 1.0) {					
+				maint_start = first_interval;				
 			}else{					
 				maint_start = maint_end +  interval;				
-			}					
-			maint_end = maint_start +  duration;					
+			}					//
+			maint_end = maint_start +  duration;	
+			
+	Rcpp::Rcout <<"opline  "<< opline << "    maint_start  " << maint_start << "  " << "maint_end  " <<  maint_end << std::endl;
 								
-								
+/*								
 								
 			//DiscreteEvent( double time, int type, int eventID, int oplineNum);					
 			auto ev1 = make_shared<DiscreteEvent>(maint_start, MAINT_START, 0, opline);					
@@ -116,8 +121,8 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in, SEXP mai
 					}			
 				}				
 			}					
-								
-		}						
+*/									
+		}
 		while(maint_end < simhours);					
 								
 	}  // get the next opline for maintenance							
