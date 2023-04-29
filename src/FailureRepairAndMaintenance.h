@@ -39,5 +39,12 @@ void recursive_dependency_passivator(
 		std::shared_ptr<OpLineList>& OLL, 
 		int this_opline);
 		
+void OnMaintStart(std::shared_ptr<DiscreteEvent>& ev,		
+		std::shared_ptr<OpLineList>& OLL);	
+		
+void OnMaintEnd(std::shared_ptr<DiscreteEvent>& ev,								
+		std::unique_ptr<ElementList>& EL,			
+		std::shared_ptr<EventQueue>& EQ,			
+		std::shared_ptr<OpLineList>& OLL);		
 		
 #endif	

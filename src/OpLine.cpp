@@ -29,7 +29,7 @@
 		return status;
 	}
 			
-	int OpLine::getMaintStatus() {
+	int OpLine::getInMaint() {
 		return inMaint;
 	}
 	

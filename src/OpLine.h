@@ -20,7 +20,7 @@ class OpLine {
 		int getStatus();
 		std::vector<std::shared_ptr<class Element>> getElems();
 		int getNum();
-		int getMaintStatus();
+		int getInMaint();
 		void setInMaint(int);
 		void incrementInMaint();
 		void decrementInMaint();

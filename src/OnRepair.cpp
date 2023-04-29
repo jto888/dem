@@ -39,14 +39,14 @@ EL->getByID(element)->setAsOperable();
 	
 	// if all other elements in this opline are operable, set all to active=1 						
 	///(unless in maintenance)						
-	if(OLL->getByNum(opline)->getMaintStatus() == 0)  {						
+	if(OLL->getByNum(opline)->getInMaint() == 0)  {						
 		//if(OLLgetByNum(opline)->activateOrRepair() == 1) {					
 		if(activateOrRepair(opline, ev, EL, EQ, OLL) == 1 ) {					
 			int num_ddeps = OLL->getByNum(opline)->getDirectDependents().size();				
 			if(num_ddeps >0) {				
 				for(int i=0; i<num_ddeps; i++) {			
 					int dep_opline = OLL->getByNum(opline)->getDirectDependents()[i];		
-					if(OLL->getByNum(dep_opline)->getMaintStatus() == 0)  {		
+					if(OLL->getByNum(dep_opline)->getInMaint() == 0)  {		
 						activateOrRepair(dep_opline, ev, EL, EQ, OLL);	
 					}		
 				}			
@@ -59,7 +59,7 @@ EL->getByID(element)->setAsOperable();
 				Rcpp::IntegerVector codeps = OLL->getByNum(opline)->getCoEnabledDependents()[i];	
 				int codeps_len = (int) codeps.size();	
 				int target = codeps[(codeps_len -1)];	
-				if(OLL->getByNum(target)->getMaintStatus() == 0) {
+				if(OLL->getByNum(target)->getInMaint() == 0) {
 				// I really did not want to repair an element that already had repair in queue
 				// but this test does not do that
 				//if(OLL->getByNum(target)->getStatus() == 0) {	
