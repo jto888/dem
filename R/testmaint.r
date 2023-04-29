@@ -136,7 +136,43 @@ testmaint<-function(Model,OpLineNames=NULL,SimulationYears = 10,SimulationYearsP
 			fun_out<-.Call("DEMwMaint", StackedModel_oplsz, SimulationYearsPerPage, HeadspaceMargin, ShowZeroDuration, StackedMaint, PACKAGE="dem")	
 	}			
 				
-	}
-	fun_out
-	}
-	
+		if(p == 1)  {			
+			summaryDF<- as.data.frame(fun_out[[1]])		
+		}else{			
+		## create a new sumvector for each column then re-build the dataframe with these sumvectors			
+			num_fails <- summaryDF$num_fails + as.data.frame(fun_out[[1]])$num_fails		
+			repair_hrs <- summaryDF$repair_hrs + as.data.frame(fun_out[[1]])$repair_hrs		
+			rand_size <- summaryDF$rand_size + as.data.frame(fun_out[[1]])$rand_size		
+			fwrap <- summaryDF$fwrap + as.data.frame(fun_out[[1]])$fwrap		
+			summaryDF <-cbind(summaryDF[,c(1,2)], data.frame(num_fails, repair_hrs, rand_size, fwrap))		
+		}			
+					
+					
+		history_out <- as.data.frame(fun_out[[2]])			
+			Page<-rep(p,length(history_out[,1]))		
+			PageCol<-data.frame(Page)
+			detail_out<-as.data.frame(fun_out[[3]])
+		if(!is.null(OpLineNames)) {			
+			names(detail_out)<-OpLineNames[,2]
+			if(nrow(OpLineNames)!=ncol(detail_out)) {	
+				warning("Provided OpLineNames do not match OpLines")
+			}
+		}	
+			history_out<-cbind(PageCol,history_out, detail_out)		
+					
+			historyDF<-rbind(historyDF, history_out)		
+					
+					
+		headspace <- attr(fun_out[[2]], "headspace")
+		if(headspace < 0.01) warning("insufficient headspace, simulation incomplete")
+		headspaceVec <- c(headspaceVec, headspace/(nrow(history_out)+headspace))			
+					
+					
+	## return to main loop through pages  				
+	}				
+					
+		outlist<-list(HeadspacePerAllocation=headspaceVec, summaryDF, historyDF)	
+
+			
+	outlist				
+	}				

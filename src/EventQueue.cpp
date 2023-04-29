@@ -97,9 +97,9 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in, SEXP mai
 			}					//
 			maint_end = maint_start +  duration;	
 			
-	Rcpp::Rcout <<"opline  "<< opline << "    maint_start  " << maint_start << "  " << "maint_end  " <<  maint_end << std::endl;
+//	Rcpp::Rcout <<"opline  "<< opline << "    maint_start  " << maint_start << "  " << "maint_end  " <<  maint_end << std::endl;
 								
-/*								
+							
 								
 			//DiscreteEvent( double time, int type, int eventID, int oplineNum);					
 			auto ev1 = make_shared<DiscreteEvent>(maint_start, MAINT_START, 0, opline);					
@@ -121,7 +121,7 @@ EventQueue::EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in, SEXP mai
 					}			
 				}				
 			}					
-*/									
+									
 		}
 		while(maint_end < simhours);					
 								
