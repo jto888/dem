@@ -14,14 +14,18 @@ class EventQueue {
 		//double years;
 		double simhours;
 		
+		// members required for survival inside maintenance reader loops		
+		int opline;						
+		double interval;						
+		double duration;						
+		double first_interval;						
+		double maint_start;						
+		double maint_end;
 		
 	public:	
 		  EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in);
-		/*  
-		  EventQueue(std::unique_ptr<ElementList>& EL, 
-			     std::unique_ptr<MaintList>& ML, 
-			     SEXP years_in);
-		*/
+		  EventQueue(std::unique_ptr<ElementList>& EL, SEXP years_in, SEXP maint_in);
+
 		
 		void insertEvent(std::shared_ptr<DiscreteEvent>& ev);
 		std::shared_ptr<DiscreteEvent> pullNext();

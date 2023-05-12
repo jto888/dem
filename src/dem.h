@@ -15,7 +15,7 @@
 #include "EventQueue.h"
 #include "History.h"
 #include "Summary.h"
-#include "FailureAndRepair.h"
+#include "FailureRepairAndMaintenance.h"
 //#include "Maintenance.h"
 //#include "MaintList.h"
 //#include "Actions.h"
@@ -24,9 +24,12 @@
 unsigned const END_SIM= 0;
 unsigned const FAILURE=1;
 unsigned const REPAIR=2;
+unsigned const MAINT_START=3;
+unsigned const MAINT_END=4;
 
 RcppExport SEXP Basicdem( SEXP, SEXP, SEXP, SEXP);
 RcppExport SEXP DEMwDep(SEXP, SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP DEMwMaint(SEXP, SEXP, SEXP, SEXP, SEXP);
 
 //RcppExport SEXP demwMaint(SEXP, SEXP, SEXP, SEXP);
 //RcppExport SEXP demwActionswMaint(SEXP, SEXP, SEXP, SEXP, SEXP);
