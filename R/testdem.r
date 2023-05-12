@@ -66,7 +66,7 @@ testdem<-function(Model,OpLineNames=NULL,SimulationYears = 10,SimulationYearsPer
 		model_mode<-0
 				
 		if(!is.null(Maint)) {
-			model_mode< model_mode +2
+			model_mode<- model_mode +2
 			# test Dependency against Model OpLines	
 		#	if(!all.equal(	
 		#	sort(unique(c(0,as.vector(as.matrix(Dep))))),	
@@ -78,7 +78,7 @@ testdem<-function(Model,OpLineNames=NULL,SimulationYears = 10,SimulationYearsPer
 		}					
 				
 		if(!is.null(Dep)) {	
-			model_mode< model_mode + 4
+			model_mode<- model_mode + 4
 			# test Dependency against Model OpLines	
 		#	if(!all.equal(	
 		#	sort(unique(c(0,as.vector(as.matrix(Dep))))),	
@@ -131,7 +131,7 @@ testdem<-function(Model,OpLineNames=NULL,SimulationYears = 10,SimulationYearsPer
 				fun_out<-.Call("DEMwDep", StackedModel_oplsz, SimulationYearsPerPage, HeadspaceMargin, ShowZeroDuration, StackedDep, PACKAGE="dem")	
 			}		
 			if(model_mode == 6) {		
-				fun_out<-.Call("DEMwMaintwDep", StackedModel_oplsz, SimulationYearsPerPage, HeadspaceMargin, ShowZeroDuration, StackedDep, PACKAGE="dem")	
+				fun_out<-.Call("DEMwMaintwDep", StackedModel_oplsz, SimulationYearsPerPage, HeadspaceMargin, ShowZeroDuration, StackedMaint, StackedDep, PACKAGE="dem")	
 			}		
 
 				
