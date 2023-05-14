@@ -30,6 +30,7 @@ unsigned const MAINT_END=4;
 RcppExport SEXP Basicdem( SEXP, SEXP, SEXP, SEXP);
 RcppExport SEXP DEMwDep(SEXP, SEXP, SEXP, SEXP, SEXP);
 RcppExport SEXP DEMwMaint(SEXP, SEXP, SEXP, SEXP, SEXP);
+RcppExport SEXP DEMwMaintwDep(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 
 //RcppExport SEXP demwMaint(SEXP, SEXP, SEXP, SEXP);
 //RcppExport SEXP demwActionswMaint(SEXP, SEXP, SEXP, SEXP, SEXP);
