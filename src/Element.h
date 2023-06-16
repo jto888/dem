@@ -10,6 +10,7 @@ class Element {
 		int opline;
 		int operable;
 		int active;
+		int repair_on_queue;
 		Rcpp::NumericVector failRands;
 		int fndx;
 		int fwrap;
@@ -58,7 +59,9 @@ class Element {
 		double getrp3();
 		int getseed();
 		int getfwrap();
-
+		void setRepairOnQueue(int setting);
+		int getRepairOnQueue();
+		
 		Rcpp::NumericVector getFailRands();
 		Rcpp::NumericVector getRepairRands();
 
