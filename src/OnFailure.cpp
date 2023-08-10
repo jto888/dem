@@ -48,6 +48,7 @@ void handleInlineFailure(std::shared_ptr<DiscreteEvent>& ev,
 		//auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextRepair(), 2, element, opline);
 		auto new_event = std::make_shared<DiscreteEvent>(ev->getTime()+EL->getByID(element)->nextRepair(), REPAIR, element, opline);
 		EQ->insertEvent(new_event);
+		EL->getByID(element)->setRepairOnQueue(1);
 	}
 	//set all elements in this OpLine as Dormant			
 	for(int i=0; i <  (int) OLL->getByNum(opline)->getElems().size(); i++) {			

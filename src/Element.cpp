@@ -6,7 +6,8 @@ Element::Element(const std::vector<double> &model_row, int num_years)  {
 	opline =  (int) model_row[0];			
 	id = (int) model_row[1];			
 	operable = 1;			
-	active = 1;			
+	active = 1;
+	repair_on_queue = 0;
 	fndx = 0;
 	fwrap = 0;
 	rndx = 0;
@@ -109,6 +110,14 @@ double Element::nextRepair() {
 		rwrap++;
 	}
 	return randval;	
+}
+
+void Element::setRepairOnQueue(int setting) {	
+	repair_on_queue = setting;
+}	
+	
+int Element::getRepairOnQueue() {	
+	return repair_on_queue;
 }
 
 int Element::getID() {
